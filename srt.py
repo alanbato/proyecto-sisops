@@ -15,22 +15,24 @@ class Process:
     cpu_time = 0
     priority = 0
     io_operation = False
-    io_operation_start = {}
+    io_operations = {}
     io_operation_duration = 0
 
     def __init__(self, pid, arrival_time, cpu_time, priority=0,
-        io_operation=False, io_operation_start=0, io_operation_duration=0):
+        io_operation=False, io_operations=0, io_operation_duration=0):
         self.arrival_time = arrival_time
         self.cpu_time = cpu_time
         self.priority = priority
         self.io_operation = io_operation
-        self.io_operation_start = io_operation_start
+        self.io_operations = io_operations
         self.io_operation_duration
 
     def has_io(self, time):
-        if io_operation_start[time] != 0:
-            io_operation_duration = io_operation_start[time]
-            io_operation = True
+        return io_operations.has_key(time)
+
+    def perform_io(self, time):
+        io_operation_duration = io_operation_start[time]
+        io_operation = True
 
 def processes_comp_arrival_time(a,b):
     return a.arrival_time < b.arrival_time
@@ -102,19 +104,30 @@ while command[0] != "FIN":
 
 # Total execution time in seconds.
 time = 0
+
+# Add processes to ready processes list based on arrival time.
+for process in processes:
+    if process.arrival_time <= time:
+        processes_ready.append(process)
+        processes.remove(process)
+
 # Ejecución de los procesos
 while len(processes) > 0:
+    # Manage blocked processes
+    for process in processes_blocked:
+        process.io_operation_duration -= 1
+        if process.io_operation_duration <= 0:
+            processes_ready.append(process)
+            processes_blocked.remove(process)
+
     processes_ready.sort(cmp=processes_comp_srt)
 
-    for process in processes:
-        if process.arrival_time <= time:
-            processes_ready.append(process)
-            processes.remove(process)
-
-    for i in range(0, cpus, processes_running):
+    # Take processes based on CPUs capacity to the running processes list.
+    for i in range(0, cpus - processes_running):
         processes_running.append(processes_ready[0])
         del processes_ready[0]
 
+    # Manage running processes (reduce execution time)
     for process in processes_running:
         process.cpu_time -= 1
         if process.has_io(time):

@@ -1,10 +1,11 @@
 class pcb:
     pID = None
-    bTime = 0 # Burst time
-    aTime = 0 # Arrival time
-    wTime = 0 # Waiting time
-    xTime = 0 # Executing time
+    bTime = 0  # Burst time
+    aTime = 0  # Arrival time
+    wTime = 0  # Waiting time
+    xTime = 0  # Executing time
     fTime = 0  # Completion time
+
 
 def comp2(g, h):
     x = cmp(g.bTime, h.bTime)
@@ -12,7 +13,8 @@ def comp2(g, h):
         x = cmp(g.pID, h.pID)
     return x
 
-def updateque(L, i): 
+
+def updateque(L, i):
     global master
     for x in master[:]:
         if x.aTime <= i:
@@ -21,10 +23,11 @@ def updateque(L, i):
             del master[j]
     return L
 
+
 def importFi(fileName):
     temp = pcb()
     holder = []
-    f=open(fileName, 'r')
+    f = open(fileName, 'r')
     for line in f:
 
 
@@ -55,6 +58,7 @@ def sjf():
     print runtime, "Complete"
     printSummary(done)
 
+
 def main(argv):
     global master
     global processTotal
@@ -64,6 +68,7 @@ def main(argv):
     master = copy.deepcopy(fileInput)
 
     sjf()
+
 
 if __name__ == "__main__":
     main(sys.argv[1])

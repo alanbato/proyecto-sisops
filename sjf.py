@@ -58,6 +58,7 @@ def sjf(process_total, master):
                 ready[0].remaining_time -= 1
                 blocked.append(ready[0])
                 del ready[0] 
+                ready.sort(cmp=comp2)
             else:
                 ready[0].execution_time += 1
                 ready[0].remaining_time -= 1

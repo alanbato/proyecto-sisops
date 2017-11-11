@@ -123,7 +123,7 @@ while len(processes) > 0:
     processes_ready.sort(cmp=processes_comp_srt)
 
     # Take processes based on CPUs capacity to the running processes list.
-    for i in range(0, cpus - processes_running):
+    for i in range(0, cpus - len(processes_running)):
         processes_running.append(processes_ready[0])
         del processes_ready[0]
 

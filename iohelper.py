@@ -32,10 +32,14 @@ class Process:
                 self.io_operations)
                 )
 
-    def has_io(self, time):
-        if io_operation_start[time] != 0:
-            io_operation_duration = io_operation_start[time]
-            io_operation = True
+    def has_io(self):
+        '''Revisa si se requiere hacer una operación de I/O en este instante'''
+        # Tiempo de CPU total - Tiempo restante = Tiempo que ya lleva ejecutado
+        return (self.cpu_time - self.remaining_time) in self.io_operations
+
+    def perform_io(self):
+        io_operation_duration = io_operation_start[self.cpu_time -
+                                                   self.remaining_time]
 
 
 def read_input(filename):

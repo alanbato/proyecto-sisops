@@ -40,8 +40,8 @@ class Process:
         return (self.cpu_time - self.remaining_time) in self.io_operations
 
     def perform_io(self):
-        io_operation_duration = io_operation_start[self.cpu_time -
-                                                   self.remaining_time]
+        self.io_operation_duration = self.io_operations[self.cpu_time -
+                                                        self.remaining_time]
 
 
 def read_input(filename):

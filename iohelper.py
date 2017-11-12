@@ -34,6 +34,8 @@ class Process:
 
     def has_io(self):
         '''Revisa si se requiere hacer una operación de I/O en este instante'''
+        if self.io_operations is None:
+            return False
         # Tiempo de CPU total - Tiempo restante = Tiempo que ya lleva ejecutado
         return (self.cpu_time - self.remaining_time) in self.io_operations
 

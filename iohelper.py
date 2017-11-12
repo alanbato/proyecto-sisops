@@ -45,13 +45,14 @@ class Process:
 def read_input(filename):
     '''Lee el archivo de entrada y regresa una lista de procesos'''
     processes = []
+    setup = None
     with open(filename) as input_file:
         policy = input_file.readline().strip()
         assert(policy in ['SJF', 'SRT'])
         quantum_line = input_file.readline().strip().split()
         assert(quantum_line[0] == 'QUANTUM')
         quantum_time = int(quantum_line[1])
-        assert(quantum_time >= 0)
+        assert(quantum_time == 0)
         context_line = input_file.readline().strip().rsplit(maxsplit=1)
         assert(context_line[0] == 'CONTEXT SWITCH')
         context_switch = int(context_line[1])
@@ -72,5 +73,7 @@ def read_input(filename):
             else:
                 io_operations = None
             # Agrega el proceso a la lista
-            processes.append(Process(pid, arrival, cpu_time, io_operations))
-    return processes
+            processes.append(
+                Process(pid, int(arrival), int(cpu_time), io_operations))
+        setup = (policy, context_switch, num_cpus)
+    return setup, processes

@@ -1,4 +1,4 @@
-# Estructuras de datos auxiliares.
+'''Estructuras de datos auxiliares.'''
 class Process:
     pid = 0
     arrival_time = 0
@@ -44,7 +44,7 @@ class Process:
                                                         self.remaining_time]
 
     def status(self):
-        return '{}({})'.format(self.pid, self.remaining_time)
+        return '{}({},{})'.format(self.pid, self.remaining_time, self.arrival_time)
 
 
 def read_input(filename):

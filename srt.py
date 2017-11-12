@@ -1,16 +1,16 @@
-# Sistemas Operativos LuJu 10
-# Proyecto Final
-# Equipo #8
+'''
+ Sistemas Operativos LuJu 10
+ Proyecto Final
+ Equipo #8
 
-# SRT:
-# > Process with the smallest estimated run time to completion is run next.
-# > Once a job begin executing, it runs to completion.
-# > In SRT a running process may be preempted by a user process with a
-#   shorter estimated run time.
+ SRT:
+ > Process with the smallest estimated run time to completion is run next.
+ > Once a job begin executing, it runs to completion.
+ > In SRT a running process may be preempted by a user process with a
+   shorter estimated run time.
+'''
 
-# Funciones auxiliares.
 import iohelper as io
-
 
 def srt_scheduling(input_filename):
     '''Política de Scheduling de SRT'''
@@ -45,6 +45,9 @@ def srt_scheduling(input_filename):
         for process in processes:
             if process.arrival_time <= time:
                 processes_ready.append(process)
+
+        for process in processes_ready:
+            if process in processes:
                 processes.remove(process)
 
         # Procesos Bloqueados
@@ -62,10 +65,11 @@ def srt_scheduling(input_filename):
         # donde "N" es la cantidad de CPU's disponibles,
         # para simular que "N" CPU's corren esos procesos.
         for i in range(0, min(cpus, len(processes_ready))):
-            process = processes_ready[i]
+            process = processes_ready[0]
             process.remaining_time -= 1
             # La interrupción I/O bloquea el proceso.
             if process.has_io():
+                print("Operacion I/O de {}".format(process.pid))
                 process.perform_io()
                 processes_blocked.append(process)
                 processes_ready.remove(process)
@@ -81,5 +85,6 @@ def srt_scheduling(input_filename):
             # TODO: Imprimir el proceso en ejecución de cada CPU
         print('Procesos Bloqueados:')
         print([proc.status() for proc in processes_blocked])
+        print('\n')
         time += 1
     return processes_finished

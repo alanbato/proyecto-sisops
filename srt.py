@@ -33,8 +33,14 @@ def srt_scheduling(input_filename):
     # Total execution time in seconds.
     time = 0
 
+    # Función que revisa si aún hay procesos que procesar
+    def pending_processes():
+        return (len(processes) +
+                len(processes_ready) +
+                len(processes_blocked))
+
     # Ejecución de los procesos
-    while len(processes) > 0:
+    while pending_processes() > 0:
         # Añadir los procesos a medida que pasa el tiempo.
         for process in processes:
             if process.arrival_time <= time:
@@ -50,20 +56,20 @@ def srt_scheduling(input_filename):
 
         # Ordenar los procesos en la cola de listos por su tiempo restante de
         # ejecución (SRT)
-        processes_ready.sort(key=lambda x: x.cpu_time)
+        processes_ready.sort(key=lambda x: x.remaining_time)
 
         # Ejectuar los primeros "N" elementos de la cola de listos,
         # donde "N" es la cantidad de CPU's disponibles,
         # para simular que "N" CPU's corren esos procesos.
         for i in range(0, min(cpus, len(processes_ready))):
             process = processes_ready[i]
-            process.cpu_time -= 1
+            process.remaining_time -= 1
             # La interrupción I/O bloquea el proceso.
             if process.has_io():
                 process.perform_io()
                 processes_blocked.append(process)
                 processes_ready.remove(process)
-            if process.cpu_time <= 0:
+            if process.remaining_time <= 0:
                 process.exit_time = time
                 processes_finished.append(process)
                 processes_ready.remove(process)

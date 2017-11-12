@@ -12,15 +12,6 @@
 import iohelper as io
 
 
-def processes_comp_srt(a, b):
-    # Comparar tiempo restante de ejecución
-    return a.cpu_time < b.cpu_time
-
-
-def processes_comp_arrival_time(a, b):
-    return a.arrival_time < b.arrival_time
-
-
 def srt_scheduling(input_filename):
     '''Política de Scheduling de SRT'''
     # Procesos disponibles inicialmente.
@@ -59,11 +50,11 @@ def srt_scheduling(input_filename):
 
         # Ordenar los procesos en la cola de listos por su tiempo restante de
         # ejecución (SRT)
-        processes_ready.sort(cmp=processes_comp_srt)
+        processes_ready.sort(key=lambda x: x.cpu_time)
 
-        # Ejectuar los primeros "N" elementos de la cola de listos, donde "N" es
-        # la cantidad de CPU's disponibles, para simular que "N" CPU's corren esos
-        # procesos.
+        # Ejectuar los primeros "N" elementos de la cola de listos,
+        # donde "N" es la cantidad de CPU's disponibles,
+        # para simular que "N" CPU's corren esos procesos.
         for i in range(0, min(cpus, len(processes_ready))):
             process = processes_ready[i]
             process.cpu_time -= 1

@@ -43,6 +43,9 @@ class Process:
         self.io_operation_duration = self.io_operations[self.cpu_time -
                                                         self.remaining_time]
 
+    def status(self):
+        return '{}({})'.format(self.pid, self.remaining_time)
+
 
 def read_input(filename):
     '''Lee el archivo de entrada y regresa una lista de procesos'''

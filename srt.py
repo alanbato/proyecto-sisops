@@ -73,6 +73,13 @@ def srt_scheduling(input_filename):
                 process.exit_time = time
                 processes_finished.append(process)
                 processes_ready.remove(process)
-
+        print('Tiempo {}:'.format(time))
+        print('Procesos en Cola de Listos:')
+        print([proc.status() for proc in processes_ready])
+        for i in range(1, cpus):
+            print('CPU {}:'.format(i))
+            # TODO: Imprimir el proceso en ejecución de cada CPU
+        print('Procesos Bloqueados:')
+        print([proc.status() for proc in processes_blocked])
         time += 1
     return processes_finished

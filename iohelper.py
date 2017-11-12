@@ -37,11 +37,11 @@ class Process:
         if self.io_operations is None:
             return False
         # Tiempo de CPU total - Tiempo restante = Tiempo que ya lleva ejecutado
-        return (self.cpu_time - self.remaining_time) in self.io_operations
+        return (self.cpu_time - self.remaining_time + 1) in self.io_operations
 
     def perform_io(self):
         self.io_operation_duration = self.io_operations[self.cpu_time -
-                                                        self.remaining_time]
+                                                        self.remaining_time + 1]
 
     def status(self):
         return '{}({},{})'.format(self.pid, self.remaining_time, self.arrival_time)

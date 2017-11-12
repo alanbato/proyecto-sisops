@@ -53,7 +53,7 @@ def srt_scheduling(input_filename):
         # Procesos Bloqueados
         for process in processes_blocked:
             process.io_operation_duration -= 1
-            if process.io_operation_duration <= 0:
+            if process.io_operation_duration < 0:
                 processes_ready.append(process)
                 processes_blocked.remove(process)
 

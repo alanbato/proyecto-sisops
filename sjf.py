@@ -1,5 +1,16 @@
-import copy
+'''
+ Sistemas Operativos LuJu 10
+ Proyecto Final
+ Equipo #8
 
+ SJF:
+ > Process with the smallest estimated run time to completion is run next.
+ > Once a job begin executing, it runs to completion.
+ > In SRT a running process may be preempted by a user process with a
+   shorter estimated run time.
+'''
+import copy
+import iohelper as io
 
 class Process:
 
@@ -39,46 +50,53 @@ def block_status(blocked, ready):
             ready.append(process)
 
 
-def sjf(process_total, master):
-    print("\nSJF schduler")
+def sjf(input_filename):
+
+    print("SJF schduler")
+
+    setup, processes = io.read_input(input_filename)
+    policy, context_switch, cpus = setup
+
+    # Verifica que la política sea SRT
+    assert policy == 'SJF'
+
+    process_total = len(processes)
+    master = []
+    master = copy.deepcopy(processes)
+
     runtime = 0
     all_done = False
     ready = []
     done = []
     blocked = []
-    ready = updateque(ready, runtime, master)  # Get process that were submitted
+    # Get process that were submitted
+    ready = updateque(ready, runtime, master)
     while not all_done:
         ready.sort(cmp=comp2)  # Sort shortest burst time first
-        print(runtime, ready[0].pid)
+        process = ready[0]
+        print(runtime, process.pid)
 
-        while ready[0].execution_time != ready[0].cpu_time:  # Execute process until it finishes
-            if ready[0].execution_time in ready[0].io_operations:
-                ready[0].io_operation_duration = ready[0].io_operations[ready[0].execution_time]
-                ready[0].execution_time += 1
-                ready[0].remaining_time -= 1
-                blocked.append(ready[0])
-                del ready[0] 
+        while process.execution_time != process.cpu_time:  # Execute process until it finishes
+            if process.has_io():
+                print("Operacion I/O de {}".format(process.pid))
+                process.perform_io()
+                process.execution_time += 1
+                process.remaining_time -= 1
+                blocked.append(process)
+                del process
                 ready.sort(cmp=comp2)
             else:
-                ready[0].execution_time += 1
-                ready[0].remaining_time -= 1
+                process.execution_time += 1
+                process.remaining_time -= 1
             runtime += 1
             block_status(blocked, ready)
             # Get process that were submitted
             ready = updateque(ready, runtime, master)
 
-        ready[0].completion_time = runtime  # Record the time process finished
-        done.append(ready[0])  # Put process in the done queue
-        del ready[0]  # Take process of the ready queue
+        process.completion_time = runtime  # Record the time process finished
+        done.append(process)  # Put process in the done queue
+        del process  # Take process of the ready queue
         if len(done) == process_total:
             all_done = True
-    print runtime, "Complete"
+    print(runtime, "Complete")
     return done
-
-
-def main(processes):
-    process_total = len(processes)
-    master = []
-    master = copy.deepcopy(processes)
-
-    sjf(process_total, master)

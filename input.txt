@@ -1,23 +1,107 @@
+// instrucciones. Este es el archivo  de prueba para todas las políticas excepto las de prioridades. Tienes que modificarlo un poco según las instrucciones que siguen.
+// caso simple. Un solo proceso, una sola CPU
+SJF // en las siguientes especificaciones, pon el nombre de tu primera política si no es SJF. Si el quantum no se aplica a tu politica, pon QUANTUM 0 en todas las especificaciones. (El quantum solo es válido para SJF)
+QUANTUM 1
+CONTEXT SWITCH 0
+CPUS 1
+10 0 10 // (Pid es 10. Empieza en tiempo 0 y dura 10 milisegundos)
+FIN
+//
+FCFN
+FIN
+//
+SJF
+QUANTUM 0
+FIN
+//
+SJF
+QUANTUM 1
+CONTEXT SWITCH 1
+CPUS 1
+10 20 I/O 10 20
+FIN
+//  Dos procesos iguales en dos cpus
+SJF
+QUANTUM 1
+CONTEXT SWITCH 0
+CPUS 2
+10 0 10
+20 0 10
+FIN
+// Un proceso I/O bound y otro cpu bound, no CC
 SJF
 QUANTUM 1
 CONTEXT SWITCH 0
 CPUS 1
-A 0 5
-B 0 3
-C 0 1
-D 2 2
-E 3 4 I/O 3 1
-F 3 3
+10 0 10
+20 0 10 I/O 1 3 5 2 7 3 // de las 10 unidades de duración, un I/O comienza en t=1 y otro en 5 y    otro en 7
+FIN
+// Caso realista. 10 procesos. Todo aleatorio utilizando generadores aleatorios de random.org.
+SJF
+QUANTUM 5
+CONTEXT SWITCH 0
+CPUS 2
+10 0 18 I/O 2 5 7 6
+20 17 8
+30 27 14 I/O 7 3
+40 47 6 I/O 1 1 4 1
+50 50 17
+60 75 15
+70 89 4 I/O 2 1
+80 90 23
+90 93 20 I/O 7 6 14 5
+100 97 10
+FIN
+// Ahora copy paste todo lo anterior, poniendo el nombre de tu segunda política en vez de RR.
+SRT // en las siguientes especificaciones, pon el nombre de tu primera política si no es SRT. Si el quantum no se aplica a tu politica, pon QUANTUM 0 en todas las especificaciones. (El quantum solo es válido para SRT)
+QUANTUM 1
+CONTEXT SWITCH 0
+CPUS 1
+10 0 10 // (Pid es 10. Empieza en tiempo 0 y dura 10 milisegundos)
 FIN
 //
-RR
-QUANTUM 0.5
-CONTEXT SWITCH 0.5
+FCFN
+FIN
+//
+SRT
+QUANTUM 0
+FIN
+//
+SRT
+QUANTUM 1
+CONTEXT SWITCH 1
+CPUS 1
+10 20 I/O 10 20
+FIN
+//  Dos procesos iguales en dos cpus
+SRT
+QUANTUM 1
+CONTEXT SWITCH 0
 CPUS 2
-A 0 5
-B 0 3
-C 0 1
-D 2 2
-E 3 4 I/O 3 1 
-F 3 3
+10 0 10
+20 0 10
+FIN
+// Un proceso I/O bound y otro cpu bound, no CC
+SRT
+QUANTUM 1
+CONTEXT SWITCH 0
+CPUS 1
+10 0 10
+20 0 10 I/O 1 3 5 2 7 3 // de las 10 unidades de duración, un I/O comienza en t=1 y otro en 5 y    otro en 7
+FIN
+// Caso realista. 10 procesos. Todo aleatorio utilizando generadores aleatorios de random.org.
+SRT
+QUANTUM 5
+CONTEXT SWITCH 0
+CPUS 2
+10 0 18 I/O 2 5 7 6
+20 17 8
+30 27 14 I/O 7 3
+40 47 6 I/O 1 1 4 1
+50 50 17
+60 75 15
+70 89 4 I/O 2 1
+80 90 23
+90 93 20 I/O 7 6 14 5
+100 97 10
 FIN

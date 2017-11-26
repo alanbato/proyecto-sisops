@@ -17,8 +17,8 @@ def srt_scheduling(setup, processes):
     '''Política de Scheduling de SRT'''
     # Obtención de los parámetros del simulador
     policy, context_switch, cpus = setup
-    cpu_dict = {'cpu_{}'.format(i): None for i in range(1, cpus+1)}
-    context_dict = {'cpu_{}'.format(i): 0 for i in range(1, cpus+1)}
+    cpu_dict = {'cpu_{}'.format(i): None for i in range(1, cpus + 1)}
+    context_dict = {'cpu_{}'.format(i): 0 for i in range(1, cpus + 1)}
 
     # Verifica que la política sea SRT
     assert(policy == 'SRT')
@@ -60,11 +60,13 @@ def srt_scheduling(setup, processes):
                 if process.remaining_time == 0:
                     cpu_dict[cpu] = None
                     processes_finished.append(process)
+                # Revisa si el proceso tiene IO, en caso de que sí, lo bloquea
                 elif process.has_io():
                     cpu_dict[cpu] = None
                     process.perform_io()
                     processes_blocked.append(process)
-                elif (process.remaining_time >
+                # Revisa si hay un proceso con un remaining time menor
+                elif (len(processes_ready) > 0 and process.remaining_time >
                       processes_ready[-1].remaining_time):
                     cpu_dict[cpu] = None
                     processes_ready.append(process)
@@ -116,5 +118,6 @@ def srt_scheduling(setup, processes):
         output_table.update(output_data)
 
         time += 1
+    # Imprime el resultado de la política
     print(output_table)
     return processes_finished

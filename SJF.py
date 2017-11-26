@@ -15,8 +15,8 @@ def sjf_scheduling(setup, processes):
     '''Política de Scheduling de SJF'''
     # Obtención de los parámetros del simulador
     policy, context_switch, cpus = setup
-    cpu_dict = {'cpu_{}'.format(i): None for i in range(1, cpus+1)}
-    context_dict = {'cpu_{}'.format(i): 0 for i in range(1, cpus+1)}
+    cpu_dict = {'cpu_{}'.format(i): None for i in range(1, cpus + 1)}
+    context_dict = {'cpu_{}'.format(i): 0 for i in range(1, cpus + 1)}
 
     # Verifica que la política sea SJF
     assert(policy == 'SJF')
@@ -52,9 +52,11 @@ def sjf_scheduling(setup, processes):
                     context_dict[cpu] -= 1
                     continue
                 process.remaining_time -= 1
+                # Si el proceso ya terminó, lo agrega a la lista de terminados
                 if process.remaining_time == 0:
                     cpu_dict[cpu] = None
                     processes_finished.append(process)
+                # Si el proceso tiene IO, lo bloquea y hace su IO
                 elif process.has_io():
                     cpu_dict[cpu] = None
                     process.perform_io()
@@ -107,5 +109,6 @@ def sjf_scheduling(setup, processes):
         output_table.update(output_data)
 
         time += 1
+    # Imprime el resultado de la política de scheduling
     print(output_table)
     return processes_finished

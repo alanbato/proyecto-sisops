@@ -10,7 +10,7 @@
    shorter estimated run time.
 '''
 
-import iohelper as io
+import iohelp as io
 
 
 def srt_scheduling(setup, processes):
@@ -118,7 +118,3 @@ def srt_scheduling(setup, processes):
         time += 1
     print(output_table)
     return processes_finished
-
-
-if __name__ == '__main__':
-    srt_scheduling('input.txt')

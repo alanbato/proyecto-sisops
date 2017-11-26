@@ -8,7 +8,7 @@
  > Once a job begin executing, it runs to completion.
 '''
 
-import iohelper as io
+import iohelp as io
 
 
 def sjf_scheduling(setup, processes):
@@ -109,7 +109,3 @@ def sjf_scheduling(setup, processes):
         time += 1
     print(output_table)
     return processes_finished
-
-
-if __name__ == '__main__':
-    sjf_scheduling('input.txt')

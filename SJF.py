@@ -138,4 +138,5 @@ def sjf_scheduling(setup, processes):
     print("Average: {}".format(wait_time_total/len(processes_finished)))
     print("\n")
 
-    return processes_finished
+    return (turnaround_time_total/len(processes_finished),
+        wait_time_total/len(processes_finished))

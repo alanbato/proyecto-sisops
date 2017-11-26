@@ -77,37 +77,49 @@ def read_input(filename):
     '''Lee el archivo de entrada y regresa una lista de procesos'''
     test_cases = []
     with open(filename) as input_file:
-        while reading:
-            processes = []
-            setup = None
-            policy = input_file.readline().strip()
-            assert(policy in ['SJF', 'SRT'])
-            quantum_line = input_file.readline().strip().split()
-            assert(quantum_line[0] == 'QUANTUM')
-            quantum_time = int(quantum_line[1])
-            assert(quantum_time == 0)
-            context_line = input_file.readline().strip().rsplit(maxsplit=1)
-            assert(context_line[0] == 'CONTEXT SWITCH')
-            context_switch = int(context_line[1])
-            assert(context_switch >= 0)
-            cpu_line = input_file.readline().strip().split()
-            assert(cpu_line[0] == 'CPUS')
-            num_cpus = int(cpu_line[1])
-            assert(num_cpus >= 1)
-            for process_line in input_file.readlines():
-                process_line = process_line.strip()
-                if process_line == 'FIN':
-                    break
-                pid, arrival, cpu_time, *io = process_line.strip().split()
-                if io:
-                    io_operations = {}
-                    for i in range(1, len(io), 2):
-                        io_operations[int(io[i])] = int(io[i + 1])
-                else:
-                    io_operations = None
-                # Agrega el proceso a la lista
-                processes.append(
-                    Process(pid, int(arrival), int(cpu_time), io_operations))
-            setup = (policy, context_switch, num_cpus)
-            test_cases.append((setup, processes))
+        for line in input_file.readlines():
+            test_case = []
+            if line.startswith('//'):
+                continue
+            policy = line.strip().split()[0]
+            if policy not in ('SJF', 'SRT'):
+                continue
+            quantum_line = 
+
+
+
+def parse_input(lines):
+
+        processes = []
+        setup = None
+        policy = input_file.readline().strip().split()[0]
+        assert(policy in ['SJF', 'SRT'])
+        quantum_line = input_file.readline().strip().split()
+        assert(quantum_line[0] == 'QUANTUM')
+        quantum_time = int(quantum_line[1])
+        assert(quantum_time == 0)
+        context_line = input_file.readline().strip().rsplit(maxsplit=1)
+        assert(context_line[0] == 'CONTEXT SWITCH')
+        context_switch = int(context_line[1])
+        assert(context_switch >= 0)
+        cpu_line = input_file.readline().strip().split()
+        assert(cpu_line[0] == 'CPUS')
+        num_cpus = int(cpu_line[1])
+        assert(num_cpus >= 1)
+        for process_line in input_file.readlines():
+            process_line = process_line.strip()
+            if process_line == 'FIN':
+                break
+            pid, arrival, cpu_time, *io = process_line.strip().split()
+            if io:
+                io_operations = {}
+                for i in range(1, len(io), 2):
+                    io_operations[int(io[i])] = int(io[i + 1])
+            else:
+                io_operations = None
+            # Agrega el proceso a la lista
+            processes.append(
+                Process(pid, int(arrival), int(cpu_time), io_operations))
+        setup = (policy, context_switch, num_cpus)
+        test_cases.append((setup, processes))
     return test_cases

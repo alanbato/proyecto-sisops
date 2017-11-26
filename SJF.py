@@ -4,8 +4,7 @@
  Equipo #8
 
  SJF:
- > Process with the smallest estimated run time to completion is run next.
- > Once a job begin executing, it runs to completion.
+ Se corre el proceso con el menor tiempo estimado restante (no expropiativo).
 '''
 
 import iohelp as io

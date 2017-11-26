@@ -4,10 +4,8 @@
  Equipo #8
 
  SRT:
- > Process with the smallest estimated run time to completion is run next.
- > Once a job begin executing, it runs to completion.
- > In SRT a running process may be preempted by a user process with a
-   shorter estimated run time.
+ Se corre el proceso con el menor tiempo estimado restante (expropiativo).
+ Si llega un proceso con un menor tiempo restante expulsa al proceso en ejecucion.
 '''
 
 import iohelp as io

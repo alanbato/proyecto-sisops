@@ -8,6 +8,7 @@ class Process:
     ''' Estructura de datos que representa a un proceso '''
     pid = 0
     arrival_time = 0
+    finish_time = 0
     cpu_time = 0
     priority = 0
     io_operation = False

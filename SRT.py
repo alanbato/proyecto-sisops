@@ -120,6 +120,8 @@ def srt_scheduling(setup, processes):
 
         time += 1
     # Imprime el resultado de la política
+    pd.set_option('display.max_colwidth', -1)
+    pd.set_option('display.max_rows', -1)
     print(output_table)
 
     # Imprime los tiempos de retorno de los procesos y el tiempo de retorno
@@ -127,12 +129,11 @@ def srt_scheduling(setup, processes):
     turnaround_time_total = 0
     print("Turnaround Times:")
     for process in processes_finished:
-        print(process.arrival_time)
-        print(process.finish_time)
         turnaround_time_total += process.finish_time-process.arrival_time
         print("Process {}: {}".format(process.pid,
             process.finish_time-process.arrival_time))
     print("Average: {}".format(turnaround_time_total/len(processes_finished)))
+    print("\n")
 
     # Imprime los tiempos de espera de los procesos y el tiempo de espera
     # promedio.

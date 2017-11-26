@@ -96,7 +96,6 @@ def read_input(filename):
 
 
 def parse_input(lines):
-
     processes = []
     setup = None
 

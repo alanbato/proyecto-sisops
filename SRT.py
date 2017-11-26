@@ -9,7 +9,7 @@
 '''
 
 import iohelp as io
-
+import pandas as pd
 
 def srt_scheduling(setup, processes):
     '''Política de Scheduling de SRT'''

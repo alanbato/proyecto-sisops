@@ -8,7 +8,6 @@
 '''
 
 import iohelp as io
-import pandas as pd
 
 
 def sjf_scheduling(setup, processes):

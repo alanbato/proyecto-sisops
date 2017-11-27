@@ -24,7 +24,6 @@ for test_case in test_cases:
             print('SJF')
             result = sjf.sjf_scheduling(test_case[0], test_case[1])
             sjf_results.append(result)
-            case_count += 1
             case_count_sjf += 1
 
 # Comparación de ambos protocolos

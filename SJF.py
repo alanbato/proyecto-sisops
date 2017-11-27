@@ -10,6 +10,7 @@
 import iohelp as io
 import pandas as pd
 
+
 def sjf_scheduling(setup, processes):
     '''Política de Scheduling de SJF'''
     # Obtención de los parámetros del simulador
@@ -110,8 +111,6 @@ def sjf_scheduling(setup, processes):
 
         time += 1
     # Imprime el resultado de la política de scheduling
-    pd.set_option('display.max_colwidth', -1)
-    pd.set_option('display.max_rows', -1)
     print(output_table)
 
     # Imprime los tiempos de retorno de los procesos y el tiempo de retorno
@@ -119,10 +118,10 @@ def sjf_scheduling(setup, processes):
     turnaround_time_total = 0
     print("\nTurnaround Times:")
     for process in processes_finished:
-        turnaround_time_total += process.finish_time-process.arrival_time
+        turnaround_time_total += process.finish_time - process.arrival_time
         print("Process {}: {}".format(process.pid,
-            process.finish_time-process.arrival_time))
-    print("Average: {}".format(turnaround_time_total/len(processes_finished)))
+                                      process.finish_time - process.arrival_time))
+    print("Average: {}".format(turnaround_time_total / len(processes_finished)))
     print("\n")
 
     # Imprime los tiempos de espera de los procesos y el tiempo de espera
@@ -130,13 +129,13 @@ def sjf_scheduling(setup, processes):
     wait_time_total = 0
     print("Waiting Times:")
     for process in processes_finished:
-        wait_time = process.finish_time-process.arrival_time-process.cpu_time
+        wait_time = process.finish_time - process.arrival_time - process.cpu_time
         if process.io_operations is not None:
             wait_time -= sum(process.io_operations.values())
         wait_time_total += wait_time
         print("Process {}: {}".format(process.pid, wait_time))
-    print("Average: {}".format(wait_time_total/len(processes_finished)))
+    print("Average: {}".format(wait_time_total / len(processes_finished)))
     print("\n")
 
-    return (turnaround_time_total/len(processes_finished),
-        wait_time_total/len(processes_finished))
+    return (turnaround_time_total / len(processes_finished),
+            wait_time_total / len(processes_finished))

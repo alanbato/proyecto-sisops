@@ -2,7 +2,8 @@ import math
 import pandas as pd
 pd.set_option('expand_frame_repr', False)
 pd.set_option('colheader_justify', 'left')
-
+pd.set_option('display.max_colwidth', -1)
+pd.set_option('display.max_rows', None)
 
 class Process:
     ''' Estructura de datos que representa a un proceso '''

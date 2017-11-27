@@ -7,18 +7,25 @@ test_cases = io.read_input('input.txt')
 sjf_results = []
 srt_results = []
 
+case_count_sjf = 1
+case_count_srt = 1
 # Itera por cada caso de pruba del input.
 for test_case in test_cases:
     if test_case is not None:
         # Llama el shceduler adecuado del caso de prueba.
         if test_case[0][0] == 'SRT':
+            print("Case #{}".format(case_count_srt))
             print('SRT')
             result = srt.srt_scheduling(test_case[0], test_case[1])
             srt_results.append(result)
+            case_count_srt += 1
         elif test_case[0][0] == 'SJF':
+            print("Case #{}".format(case_count_sjf))
             print('SJF')
             result = sjf.sjf_scheduling(test_case[0], test_case[1])
             sjf_results.append(result)
+            case_count += 1
+            case_count_sjf += 1
 
 # Comparación de ambos protocolos
 if len(sjf_results) is not len(srt_results):
